@@ -26,21 +26,21 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    'INSER INTO user (username, password) VALUES (?, ?)',
+                    'INSERT INTO user (username, password) VALUES (?, ?)',
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                error = f'User {username} is already registered.'
             else:
-                return redirect(url_for("auth.login"))
+                return redirect(url_for('auth.login'))
 
         flash(error)
 
-    return render_template("auth/register.html")
+    return render_template('auth/register.html')
 
 
-@bp.register('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
